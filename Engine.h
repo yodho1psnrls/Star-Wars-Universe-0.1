@@ -1,6 +1,10 @@
 #pragma once
 #include "Planet.h"
 
+
 class Engine {
-	void saveJediInFile(const Jedi&);
+	String fileName;
+
+public:
+	void saveJediToFile(const Jedi&);
 };

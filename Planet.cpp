@@ -43,6 +43,47 @@ void Planet::printAll()
 	}
 }
 
+void Planet::saveToFile(const char* fileName) const {
+//void Planet::saveToFile(const std::ofstream& file) const {
+	std::ofstream file(fileName , std::ios::app);
+	//int state;
+	//state = 0; //ot Automata Theory-to se setih :)
+	if (file.is_open()) {
+		//file << name << "{" << "\n";
+		file << "@" << name <<"\n";
+		file.close();
+		for (size_t i = 0; i < Jcount; i++) {
+			jedis[i]->saveToFile(fileName);
+		}
+		//file << "}";
+	}
+
+	file.close();
+}
+
+void Planet::loadFromFile(const char* fileName)
+{
+	std::ifstream file(fileName);
+	static bool isInPlanet;
+	if (file.is_open()) {
+		std::ifstream file(fileName);
+		isInPlanet = false;
+		//char symbol;
+		//while (!isInPlanet && !file.eof()) {
+		//while (!isInPlanet && std::getline(file, )) {
+		//while (!isInPlanet && file>>symbol) {
+			//if(symbol=='@')
+		//}
+		String line;
+		while (!file.eof() && std::getline(file, line)) {
+
+		}
+		isInPlanet = !isInPlanet;
+	}
+
+	file.close();
+}
+
 Planet::Planet(const char* _name) {
 	name = _name;
 	Jcount = 0;

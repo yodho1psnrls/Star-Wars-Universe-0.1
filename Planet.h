@@ -1,5 +1,6 @@
 #pragma once
 #include "Jedi.h"
+#include <cstring> //zaradi std::getline
 //#include <iostream>
 
 class Planet {
@@ -16,7 +17,10 @@ class Planet {
 public:
 	void addJedi(const Jedi&);
 	void printAll();
-	Jedi getStrongestJedi() const;
+	void saveToFile(const char*) const;
+	//void saveToFile(const std::ofstream& file) const;
+	void loadFromFile(const char*);
+	//Jedi getStrongestJedi() const;
 
 	//Planet();
 	Planet(const char*);

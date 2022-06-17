@@ -14,6 +14,17 @@ void Jedi::print() const
 	std::cout << name << ", Rank: " << rang << ", Age: " << age << ", Sword: " << swordColor << ", Strength: " << strength<<"\n";
 }
 
+void Jedi::saveToFile(const char* fileName) const
+{
+	std::ofstream file(fileName, std::ios::app);
+	//std::ofstream file(fileName);
+	if (file.is_open()) {
+		file << name << ", " << rang << ", " << age << ", " << swordColor << ", " << strength << "\n";
+	}
+
+	file.close();
+}
+
 Jedi::Jedi(const char* _name, const unsigned _rang, const unsigned _age, const char* _sc, const double _strength) {
 	name = _name;
 	rang = _rang;
