@@ -1,4 +1,6 @@
 #include "Planet.h"
+#include <iostream>
+#include <string>
 //#pragma warning( disable : 6386)
 
 void Planet::copyFrom(const Planet& other) {
@@ -32,8 +34,24 @@ void Planet::addJedi(const Jedi& newJedi)
 	if (Jcount == Jcap)
 		resize();
 	jedis[Jcount++] = new Jedi(newJedi);
+}
+
+void Planet::addJedi(const char* name, const unsigned rang, const unsigned age, const char* swordColor, const double strength)
+{
+	if (Jcount == Jcap)
+		resize();
+	jedis[Jcount++] = new Jedi(name, rang, age, swordColor, strength);
 	//Jcount++;
 }
+
+void Planet::addJedi(const String& name, const unsigned rang, const unsigned age, const String& swordColor, const double strength)
+{
+	if (Jcount == Jcap)
+		resize();
+	jedis[Jcount++] = new Jedi(name.getPtr(), rang, age, swordColor.getPtr(), strength);
+	//Jcount++;
+}
+
 
 void Planet::printAll()
 {
@@ -44,18 +62,13 @@ void Planet::printAll()
 }
 
 void Planet::saveToFile(const char* fileName) const {
-//void Planet::saveToFile(const std::ofstream& file) const {
 	std::ofstream file(fileName , std::ios::app);
-	//int state;
-	//state = 0; //ot Automata Theory-to se setih :)
 	if (file.is_open()) {
-		//file << name << "{" << "\n";
 		file << "@" << name <<"\n";
 		file.close();
 		for (size_t i = 0; i < Jcount; i++) {
 			jedis[i]->saveToFile(fileName);
 		}
-		//file << "}";
 	}
 
 	file.close();
@@ -63,25 +76,49 @@ void Planet::saveToFile(const char* fileName) const {
 
 void Planet::loadFromFile(const char* fileName)
 {
+	char buff[BUFF_SIZE];
+
+	String tempName;
+	unsigned tempRang; //enum //ot 1 do 8
+	unsigned tempAge;
+	String tempSwordColor;
+	double tempStrength;
+
+	bool isPlanetFound = false;
+
 	std::ifstream file(fileName);
-	static bool isInPlanet;
 	if (file.is_open()) {
-		std::ifstream file(fileName);
-		isInPlanet = false;
-		//char symbol;
-		//while (!isInPlanet && !file.eof()) {
-		//while (!isInPlanet && std::getline(file, )) {
-		//while (!isInPlanet && file>>symbol) {
-			//if(symbol=='@')
-		//}
-		String line;
-		while (!file.eof() && std::getline(file, line)) {
-
+		while (file.getline(buff, BUFF_SIZE)) {
+			Y++;
+			if (buff[0] == '@' && (String(buff + 1) == name)) {
+				while (file >> tempName >> tempRang >> tempAge >> tempSwordColor >> tempStrength && tempName[0] != '@') {
+					addJedi(tempName, tempRang, tempAge, tempSwordColor, tempStrength);
+				}
+				isPlanetFound = true;
+				break;
+			}
 		}
-		isInPlanet = !isInPlanet;
+		if (isPlanetFound)
+			std::cout << "Planet succesfuly loaded ! \n";
+		else std::cout << "Plannet NOT loaded. There is no planet with that name in the .txt file \n";
 	}
-
+	else std::cout << "Cannot open file ! \n";
 	file.close();
+}
+
+size_t Planet::getPopulation() const
+{
+	return Jcount;
+}
+
+String Planet::getName() const
+{
+	return name;
+}
+
+size_t Planet::getLineNumber() const
+{
+	return Y;
 }
 
 Planet::Planet(const char* _name) {
@@ -89,8 +126,9 @@ Planet::Planet(const char* _name) {
 	Jcount = 0;
 	Jcap = 2;
 	jedis = new Jedi* [Jcap];
+	Y = 0; //1
 }
-Planet::Planet(const Planet* other)
+Planet::Planet(const Planet& other)
 {
 	copyFrom(other);
 }

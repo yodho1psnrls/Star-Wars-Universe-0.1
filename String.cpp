@@ -1,27 +1,4 @@
 #include "String.h"
-#include<iostream>
-#include<cstring>
-int myPow(int n, const int e) {
-	if (e == 0) return 1;
-	else if (n == 0) return 0;
-	else {
-		int t = 1;
-		for (int i = 0; i < e; i++) {
-			t *= n;
-		}
-		return t;
-	}
-	return 0;
-}
-
-int numLen(int n) {
-	int size = 1;
-	while (n >= 10) {
-		n /= 10;
-		size++;
-	}
-	return size;
-}
 
 void String::createEmpty() {
 	str = new char[1];
@@ -56,12 +33,6 @@ String::String() {
 String::String(const char* other) {
 	copyCharArr(other);
 }
-String::String(const char other) {
-	str = new char[2];
-	str[0] = other;
-	str[1] = '/0';
-	size = 1;
-}
 
 String::String(const String& other) {
 	copyStr(other);
@@ -84,16 +55,26 @@ String& String::operator=(const char* other) {
 	return *this;
 }
 
-const char* String::getStr() const {
+const char* String::getPtr() const {
 	return str;
 }
 const size_t  String::getLen() const {
 	return size;
 }
 
-bool operator==(const String& lhs, const String& rhs) {
-	return strcmp(lhs.getStr(), rhs.getStr()) == 0;
+const char String::operator[](const size_t i) const
+{
+	return str[i];
 }
+
+bool operator==(const String& lhs, const String& rhs) {
+	return strcmp(lhs.getPtr(), rhs.getPtr()) == 0;
+}
+
+bool operator!=(const String& lhs, const String& rhs) {
+	return strcmp(lhs.getPtr(), rhs.getPtr()) != 0;
+}
+
 
 //The functions below this line are from here:
 //https://github.com/Angeld55/Object-oriented_programming_FMI/blob/master/Sem.%2009/StringPool/MyString/MyString.h
@@ -114,32 +95,28 @@ std::istream& operator>>(std::istream& stream, String& str) {
 
 	return stream;
 }
-/*
-void String::copyNumber(const int n) {
-	createEmpty();
-	int u = 0;
-	for (int i = 0; i < numLen(n); i++) {
-		u = int(n / myPow(10, i) % 10);
-		concat(String(char(u + 30)));
-		size++;
-	}
-}
-String::String(const int digit) {
-	copyNumber(digit);
-}
+
 void String::concat(const String& other)
 {
-	char* temp = new char[getLen() + other.getLen() + 1];
-	strcpy_s(temp, size + 1, str);
-	size = size + other.getLen();
-	strcat_s(temp,size + 1, other.str);
-
+	char* temp = new char[size + other.size + 1];
+	for (size_t i = 0; i < size; i++) {
+		temp[i] = str[i];
+	}
+	for (size_t i = 0; i < other.size + 1; i++) {
+		temp[size + i] = other.str[i];
+	}
+	size = size + other.size;
 	delete[] str;
 	str = temp;
 	
 }
+
 String& String::operator+=(const String& other) {
 	concat(other);
+	return *this;
+}
+String& String::operator+=(const char* other) {
+	concat(String(other));
 	return *this;
 }
 String operator+(const String & lhs, const String & rhs) {
@@ -147,8 +124,12 @@ String operator+(const String & lhs, const String & rhs) {
 	copyOfLeft += rhs;
 	return copyOfLeft;
 }
-String& String::operator+=(const char* other) {
-	concat(String(other));
-	return *this;
+
+int cmpStr_s(const char* cr1, const size_t l, const char* cr2)
+{
+	int a = 0;
+	for (size_t i = 0; i < l; i++) {
+		a += int(cr1[i]) - int(cr2[i]);
+	}
+	return a;
 }
-*/

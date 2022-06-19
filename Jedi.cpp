@@ -1,5 +1,14 @@
 #include "Jedi.h"
 
+void Jedi::setName(const char* _name)
+{
+	size_t i = 0;
+	while (_name[i] == '@' && _name[i] != '/0') {
+		i++;
+	}
+	name = _name + i;
+}
+
 void Jedi::copyFrom(const Jedi& other)
 {
 	name = other.name;
@@ -16,17 +25,22 @@ void Jedi::print() const
 
 void Jedi::saveToFile(const char* fileName) const
 {
-	std::ofstream file(fileName, std::ios::app);
-	//std::ofstream file(fileName);
+	std::ofstream file(fileName);
 	if (file.is_open()) {
-		file << name << ", " << rang << ", " << age << ", " << swordColor << ", " << strength << "\n";
+		file << name << " " << rang << " " << age << " " << swordColor << " " << strength << "\n";
 	}
 
 	file.close();
 }
 
+void Jedi::saveToFile(std::ofstream& file) const
+{
+		file << name << " " << rang << " " << age << " " << swordColor << " " << strength << "\n";
+}
+
 Jedi::Jedi(const char* _name, const unsigned _rang, const unsigned _age, const char* _sc, const double _strength) {
-	name = _name;
+	//name = _name;
+	setName(_name);
 	rang = _rang;
 	age = _age;
 	swordColor = _sc;
