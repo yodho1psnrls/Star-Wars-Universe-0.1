@@ -69,9 +69,10 @@ void Planet::saveToFile(const char* fileName) const {
 		for (size_t i = 0; i < Jcount; i++) {
 			jedis[i]->saveToFile(fileName);
 		}
+		std::cout << "Planet " << name << " saved. \n";
 	}
 
-	file.close();
+	//file.close();
 }
 
 void Planet::loadFromFile(const char* fileName)
@@ -99,8 +100,8 @@ void Planet::loadFromFile(const char* fileName)
 			}
 		}
 		if (isPlanetFound)
-			std::cout << "Planet succesfuly loaded ! \n";
-		else std::cout << "Plannet NOT loaded. There is no planet with that name in the .txt file \n";
+			std::cout << "Planet " << name << " succesfuly loaded ! \n";
+		else std::cout << "Plannet NOT loaded. There is no planet " << name << " in this .txt file \n";
 	}
 	else std::cout << "Cannot open file ! \n";
 	file.close();

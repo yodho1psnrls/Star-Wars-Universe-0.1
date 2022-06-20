@@ -1,16 +1,14 @@
-#include <iostream>
+//#include <iostream>
 #include "Engine.h"
 
 int main() {
 	Engine E;
-		E.addJediToFile("Mars", Jedi("Stanko", rand() % 8 + 1, 18, "purple", (rand() % 500) / 10.0));
-	
-	E.removeJediFromFile("Mars", "halulullu");
-	Planet M("Mars");
-	M.loadFromFile(E.getCurrentName());
-	M.printAll();
+	E.Run();
 
-	std::cout << cmpStr_s("Jagajgjajgjagja", strlen("Jagajgjajgjagja"), "Jagajgjajgjagja 4 18 purple 4.1");
-
+	/*char buff[] = "jefua fheuaf huhe hefuhef ef 13.45 jefua fheuaf huhe hefuhef ef";
+	size_t n = getPos(buff, 6);
+	std::cout << String(buff + n, wordLen(buff + n)) << '\n';
+	String A(buff + n, wordLen(buff + n));
+	std::cout << strToDouble(A) << '\n'; */
 	return 0;
 }

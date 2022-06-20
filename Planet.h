@@ -1,5 +1,5 @@
 #pragma once
-#define BUFF_SIZE 1024
+//#define BUFF_SIZE 1024
 #include "Jedi.h"
 #include <cstring> //zaradi std::getline
 //#include <iostream>
